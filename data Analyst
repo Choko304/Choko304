@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the Excel file
+file_path = 'Feeders-Half-Hourly-Power-2.xls'
+data = pd.read_excel(file_path)
+
+# Display the first few rows of the data to understand its structure
+print(data.head())
+
+# Filter data for the specific timestamp
+peak_load_time = '2024-05-16 15:10:00'
+peak_data = data[data['Timestamp'] == peak_load_time]
+
+# Plot the data
+feeder_columns = [col for col in peak_data.columns if 'Feeder' in col]
+peak_values = peak_data[feeder_columns].values.flatten()
+
+plt.figure(figsize=(10, 6))
+plt.bar(feeder_columns, peak_values, color='blue')
+plt.xlabel('Feeders')
+plt.ylabel('Power (kW)')
+plt.title('Power Readings of Feeders at Peak Load Time')
+plt.xticks(rotation=45)
+plt.show()
